@@ -5,6 +5,7 @@ import coda.icebreaker.registry.IBEntities;
 import coda.icebreaker.registry.IBItems;
 import coda.icebreaker.registry.IBMenus;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -15,10 +16,7 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.HasCustomInventoryScreen;
-import net.minecraft.world.entity.SlotAccess;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +30,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -42,6 +43,7 @@ public class IcebreakerBoat extends Boat implements HasCustomInventoryScreen, Co
     @Nullable
     private ResourceLocation lootTable;
     private long lootTableSeed;
+    public boolean isFueled;
 
     public IcebreakerBoat(EntityType<? extends Boat> p_38290_, Level p_38291_) {
         super(p_38290_, p_38291_);
@@ -191,11 +193,19 @@ public class IcebreakerBoat extends Boat implements HasCustomInventoryScreen, Co
         this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
     }
 
-    private LazyOptional<?> itemHandler = LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this));
+    public boolean isFueled() {
+        return !isEmpty();
+    }
+
+    public void setFueled(boolean fueled) {
+        isFueled = fueled;
+    }
+
+    private LazyOptional<?> itemHandler = LazyOptional.of(() -> new InvWrapper(this));
 
     @Override
-    public <T> LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.core.Direction facing) {
-        if (this.isAlive() && capability == net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER)
+    public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
+        if (this.isAlive() && capability == ForgeCapabilities.ITEM_HANDLER)
             return itemHandler.cast();
         return super.getCapability(capability, facing);
     }
@@ -209,7 +219,7 @@ public class IcebreakerBoat extends Boat implements HasCustomInventoryScreen, Co
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        itemHandler = LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this));
+        itemHandler = LazyOptional.of(() -> new InvWrapper(this));
     }
 
     @Override
@@ -238,6 +248,14 @@ public class IcebreakerBoat extends Boat implements HasCustomInventoryScreen, Co
             }
         }
 
-        setDeltaMovement(getDeltaMovement().multiply(0.9D, 1.0D, 0.9D));
+        if (getControllingPassenger() != null && getControllingPassenger() instanceof Player) {
+            if (isFueled()) {
+                setDeltaMovement(getDeltaMovement().scale(1.05D));
+            }
+            else {
+                setDeltaMovement(getDeltaMovement().scale(0.95D));
+            }
+
+        }
     }
 }
