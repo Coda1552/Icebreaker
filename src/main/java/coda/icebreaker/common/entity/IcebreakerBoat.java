@@ -12,10 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
@@ -113,11 +110,11 @@ public class IcebreakerBoat extends Boat implements HasCustomInventoryScreen, Co
 
     public void openCustomInventoryScreen(Player p_219906_) {
         p_219906_.openMenu(this);
+
         if (!p_219906_.level.isClientSide) {
             this.gameEvent(GameEvent.CONTAINER_OPEN, p_219906_);
             PiglinAi.angerNearbyPiglins(p_219906_, true);
         }
-
     }
 
     public void clearContent() {

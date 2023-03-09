@@ -13,6 +13,7 @@ import net.minecraftforge.common.ForgeHooks;
 // todo - save items in the menu once the menu is closed
 public class IcebreakerBoatMenu extends AbstractContainerMenu {
     private final ContainerData data;
+    private final Container container;
 
     public IcebreakerBoatMenu(MenuType<?> type, int id, Inventory inventory) {
         this(type, id, inventory, new SimpleContainer(1), new SimpleContainerData(1));
@@ -21,10 +22,13 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
     public IcebreakerBoatMenu(MenuType<?> type, int id, Inventory inventory, Container container, ContainerData data) {
         super(type, id);
         this.data = data;
+        this.container = container;
         checkContainerSize(container, 1);
-        checkContainerDataCount(data, 4);
+        checkContainerDataCount(data, 1);
 
-        this.addSlot(new Slot(container, 1, 8, 36) {
+        container.startOpen(inventory.player);
+
+        this.addSlot(new Slot(container, 0, 8, 36) {
             @Override
             public boolean mayPlace(ItemStack p_39526_) {
                 return ForgeHooks.getBurnTime(p_39526_, RecipeType.SMELTING) > 0;
@@ -106,8 +110,15 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
         return itemstack;
     }
 
+    // todo
     @Override
-    public boolean stillValid(Player p_38874_) {
-        return true;
+    public boolean stillValid(Player player) {
+        return container.stillValid(player);
+    }
+
+    public void removed(Player player) {
+        super.removed(player);
+        System.out.println(container.isEmpty());
+        this.container.stopOpen(player);
     }
 }

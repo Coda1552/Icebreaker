@@ -30,6 +30,18 @@ public class IcebreakerScreen extends AbstractContainerScreen<IcebreakerBoatMenu
             int k = this.menu.getLitProgress();
             this.blit(stack, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
         }
+    }
 
+    @Override
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
+    }
+
+    @Override
+    protected void renderLabels(PoseStack matrixStack, int x, int y) {
+        this.font.draw(matrixStack, this.playerInventoryTitle, (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
+        this.font.draw(matrixStack, this.title, (float) this.titleLabelY, (float) this.titleLabelX - 2, 4210752);
     }
 }
