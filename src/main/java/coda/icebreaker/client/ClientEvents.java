@@ -22,8 +22,6 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent e) {
-        EntityRenderers.register(IBEntities.ICEBREAKER_BOAT.get(), (context) -> new BoatRenderer(context, false));
-
         EntityRenderers.register(IBEntities.ICEBREAKER_BOAT.get(), IcebreakerRenderer::new);
 
         MenuScreens.register(IBMenus.ICEBREAKER.get(), IcebreakerScreen::new);

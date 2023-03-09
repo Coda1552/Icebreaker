@@ -15,7 +15,7 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public IcebreakerBoatMenu(MenuType<?> type, int id, Inventory inventory) {
-        this(type, id, inventory, new SimpleContainer(3), new SimpleContainerData(4));
+        this(type, id, inventory, new SimpleContainer(1), new SimpleContainerData(1));
     }
 
     public IcebreakerBoatMenu(MenuType<?> type, int id, Inventory inventory, Container container, ContainerData data) {

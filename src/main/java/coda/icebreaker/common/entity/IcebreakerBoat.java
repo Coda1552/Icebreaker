@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.ContainerEntity;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -160,7 +162,7 @@ public class IcebreakerBoat extends Boat implements HasCustomInventoryScreen, Co
         }
         else {
             this.unpackLootTable(inv.player);
-            return new IcebreakerBoatMenu(IBMenus.ICEBREAKER.get(), id, inv);
+            return new IcebreakerBoatMenu(IBMenus.ICEBREAKER.get(), id, inv, new SimpleContainer(3), new SimpleContainerData(4));
         }
     }
 
@@ -220,6 +222,11 @@ public class IcebreakerBoat extends Boat implements HasCustomInventoryScreen, Co
     public void reviveCaps() {
         super.reviveCaps();
         itemHandler = LazyOptional.of(() -> new InvWrapper(this));
+    }
+
+    @Override
+    public void setChestVehicleItem(int p_219941_, ItemStack p_219942_) {
+        ContainerEntity.super.setChestVehicleItem(p_219941_, p_219942_);
     }
 
     @Override
