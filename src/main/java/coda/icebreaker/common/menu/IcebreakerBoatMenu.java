@@ -110,7 +110,6 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
         return itemstack;
     }
 
-    // todo
     @Override
     public boolean stillValid(Player player) {
         return container.stillValid(player);
