@@ -159,7 +159,7 @@ public class IcebreakerBoat extends Boat implements HasCustomInventoryScreen, Co
         }
         else {
             this.unpackLootTable(inv.player);
-            return new IcebreakerBoatMenu(IBMenus.ICEBREAKER.get(), id, inv, new SimpleContainer(3), new SimpleContainerData(4));
+            return new IcebreakerBoatMenu(id, inv, new SimpleContainer(3), new SimpleContainerData(4));
         }
     }
 

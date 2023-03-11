@@ -15,12 +15,12 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
     private final ContainerData data;
     private final Container container;
 
-    public IcebreakerBoatMenu(MenuType<?> type, int id, Inventory inventory) {
-        this(type, id, inventory, new SimpleContainer(1), new SimpleContainerData(1));
+    public IcebreakerBoatMenu(int id, Inventory inventory) {
+        this(id, inventory, new SimpleContainer(1), new SimpleContainerData(1));
     }
 
-    public IcebreakerBoatMenu(MenuType<?> type, int id, Inventory inventory, Container container, ContainerData data) {
-        super(type, id);
+    public IcebreakerBoatMenu(int id, Inventory inventory, Container container, ContainerData data) {
+        super(IBMenus.ICEBREAKER.get(), id);
         this.data = data;
         this.container = container;
         checkContainerSize(container, 1);
@@ -35,18 +35,14 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
             }
         });
 
-        for(int i = 0; i < 3; ++i) {
-            for(int j = 0; j < 9; ++j) {
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 9; ++j) {
                 this.addSlot(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
-        for(int k = 0; k < 9; ++k) {
+        for (int k = 0; k < 9; ++k) {
             this.addSlot(new Slot(inventory, k, 8 + k * 18, 142));
         }
-    }
-
-    public IcebreakerBoatMenu(int id, Inventory inventory) {
-        this(IBMenus.ICEBREAKER.get(), id, inventory);
     }
 
     public int getLitProgress() {
@@ -96,7 +92,8 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
 
             if (itemstack1.isEmpty()) {
                 slot.set(ItemStack.EMPTY);
-            } else {
+            }
+            else {
                 slot.setChanged();
             }
 
@@ -117,7 +114,6 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
 
     public void removed(Player player) {
         super.removed(player);
-        System.out.println(container.isEmpty());
         this.container.stopOpen(player);
     }
 }
