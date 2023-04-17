@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.common.ForgeHooks;
 
-// todo - save items in the menu once the menu is closed
 public class IcebreakerBoatMenu extends AbstractContainerMenu {
     private final ContainerData data;
     private final Container container;
@@ -63,7 +62,7 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player p_38986_, int index) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
@@ -101,7 +100,7 @@ public class IcebreakerBoatMenu extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(p_38986_, itemstack1);
+            slot.onTake(player, itemstack1);
         }
 
         return itemstack;
